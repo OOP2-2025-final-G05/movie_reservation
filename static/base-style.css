@@ -1,5 +1,9 @@
 :root {
   font-size: 14pt;
+  background: linear-gradient(#7fdbff,rgb(166, 166, 255));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 body {
