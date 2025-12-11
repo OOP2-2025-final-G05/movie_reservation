@@ -29,7 +29,7 @@
                 <td><a href="{{ url_for('order.edit', order_id=order.id) }}">編集</a></td>
                 <td>{{ order.user.name }}</td>
                 <td>{{ order.product.name }}</td>
-                <td>{{ order.product.price }}</td>
+                <td>{{ order.get_discounted_price() }}</td>
                 <td>{{ order.order_date }}</td>
             </tr>
             {% endfor %}
