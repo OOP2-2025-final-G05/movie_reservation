@@ -9,16 +9,17 @@
     <h1>{{ title }}</h1>
     <ul class="breadcrumb">
         <li><a href="{{ url_for('index') }}">HOME</a></li>
-        <li><a href="{{ url_for('order.list') }}">注文一覧</a></li>
+        <li><a href="{{ url_for('order.list') }}">予約</a></li>
     </ul>
 
-    <a href="{{ url_for('order.add') }}">新規注文追加</a>
+    <a href="{{ url_for('order.add') }}">新規予約追加</a>
     <table>
         <thead>
             <tr>
                 <th>&nbsp;</th>
                 <th>ユーザー</th>
-                <th>製品</th>
+                <th>映画</th>
+                <th>値段</th>
                 <th>注文日</th>
             </tr>
         </thead>
