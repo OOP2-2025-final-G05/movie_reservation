@@ -16,6 +16,10 @@
     <form action="{{ url_for('user.edit', user_id=user.id) }}" method="post">
         <label>名前: <input type="text" name="name" value="{{ user.name }}" required></label><br>
         <label>年齢: <input type="number" name="age" value="{{ user.age }}" required></label><br>
+
+        <!-- ★区分表示だけ追加（自動なのでフォームには入れない） -->
+        <p>区分: <strong>{{ user.category }}</strong></p>
+
         <button type="submit">保存</button>
     </form>
 </body>
