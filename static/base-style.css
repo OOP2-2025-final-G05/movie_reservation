@@ -1,5 +1,10 @@
 :root {
   font-size: 14pt;
+  background: linear-gradient(#7fdbff,rgb(166, 166, 255));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color:azure;
 }
 
 body {
@@ -17,10 +22,12 @@ th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  color: black;
 }
 
 th {
   background-color: #f4f4f4;
+  color: black;
 }
 
 .breadcrumb {
