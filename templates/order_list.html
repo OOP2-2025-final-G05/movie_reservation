@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>データ一覧</title>
+    <title>予約一覧</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
 </head>
 <body>
@@ -20,7 +20,7 @@
                 <th>ユーザー</th>
                 <th>映画</th>
                 <th>値段</th>
-                <th>注文日</th>
+                <th>予約日</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +29,7 @@
                 <td><a href="{{ url_for('order.edit', order_id=order.id) }}">編集</a></td>
                 <td>{{ order.user.name }}</td>
                 <td>{{ order.product.name }}</td>
+                <td>{{ order.product.price }}</td>
                 <td>{{ order.order_date }}</td>
             </tr>
             {% endfor %}
