@@ -13,12 +13,14 @@
     </ul>
 
     <a href="{{ url_for('user.add') }}">新規ユーザー追加</a>
+
     <table>
         <thead>
             <tr>
                 <th>&nbsp;</th>
                 <th>名前</th>
                 <th>年齢</th>
+                <th>区分</th>   <!-- ★追加 -->
             </tr>
         </thead>
         <tbody>
@@ -27,6 +29,7 @@
                 <td><a href="{{ url_for('user.edit', user_id=user.id) }}">編集</a></td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.age }}</td>
+                <td>{{ user.category }}</td>  <!-- ★追加 -->
             </tr>
             {% endfor %}
         </tbody>
