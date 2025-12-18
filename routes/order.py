@@ -41,3 +41,11 @@ def edit(order_id):
     users = User.select()
     products = Product.select()
     return render_template('order_edit.html', order=order, users=users, products=products)
+
+
+@order_bp.route('/delete/<int:order_id>', methods=['POST'])
+def delete(order_id):
+    order = Order.get_or_none(Order.id == order_id)
+    if order:
+        order.delete_instance()
+    return redirect(url_for('order.list'))

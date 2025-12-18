@@ -26,7 +26,12 @@
         <tbody>
             {% for order in items %}
             <tr>
-                <td><a href="{{ url_for('order.edit', order_id=order.id) }}">編集</a></td>
+                <td>
+                    <a href="{{ url_for('order.edit', order_id=order.id) }}">編集</a>
+                    <form action="{{ url_for('order.delete', order_id=order.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('本当に削除しますか？')">削除</button>
+                    </form>
+                </td>
                 <td>{{ order.user.name }}</td>
                 <td>{{ order.product.name }}</td>
                 <td>{{ order.get_discounted_price() }}</td>
