@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>映画予約管理システム</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body style="text-align: center;">
     <h1>映画予約管理システム</h1>
@@ -34,5 +35,38 @@
       </li>
 
     </ul>
+
+    <!-- 横棒グラフ表示 -->
+    <h2>今月の映画別売上</h2>
+    <canvas id="salesChart" width="100" height="70" style="margin-top: 20px;"></canvas>
+
+    <script>
+        const labels = {{ labels | tojson }};
+        const sales  = {{ sales  | tojson }};
+
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '売上（円）',
+                    data: sales,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',  // 横棒にする
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
