@@ -2,12 +2,13 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>注文管理システム</title>
+    <title>映画予約管理システム</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- 円グラフ用CSS（左下固定） -->
     <style>
         #chart-area {
             position: fixed;
@@ -15,13 +16,12 @@
             left: 20px;
             width: 320px;
             height: 320px;
-            background: #ffffff;
+            background-color: #ffffff;
             border: 1px solid #ccc;
             padding: 10px;
             box-sizing: border-box;
         }
 
-        /* canvasは必ず正方形 */
         #movieChart {
             width: 100% !important;
             height: 100% !important;
@@ -29,13 +29,34 @@
     </style>
 </head>
 
-<body>
-    <h1>注文管理システム</h1>
+<body style="text-align: center;">
+    <h1>映画予約管理システム</h1>
 
-    <ul>
-      <li><a href="{{ url_for('user.list') }}">ユーザー（顧客）</a></li>
-      <li><a href="{{ url_for('product.list') }}">製品</a></li>
-      <li><a href="{{ url_for('order.list') }}">注文</a></li>
+    <hr style="width: 400px; border: none; border-top: 1px solid black; margin: 0 auto 30px auto;">
+
+    <ul style="list-style: none; padding: 0; width: 300px; margin: 0 auto;">
+      
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('user.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           👤 ユーザー（顧客）
+        </a>
+      </li>
+
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('product.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           🎬 映画一覧
+        </a>
+      </li>
+
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('order.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           🎫 予約
+        </a>
+      </li>
+
     </ul>
 
     <!-- 左下の円グラフ -->
@@ -57,7 +78,8 @@
                         '#36a2eb',
                         '#ffce56',
                         '#4bc0c0',
-                        '#9966ff'
+                        '#9966ff',
+                        '#ff9f40'
                     ]
                 }]
             },
@@ -67,7 +89,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: '映画ごとの顧客人数',
+                        text: '映画ごとの予約人数',
                         font: {
                             size: 14
                         }
