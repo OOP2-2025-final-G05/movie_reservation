@@ -2,37 +2,82 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>映画予約管理システム</title>
+    <title>注文管理システム</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        #chart-area {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: 320px;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* canvasは必ず正方形 */
+        #movieChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
 </head>
-<body style="text-align: center;">
-    <h1>映画予約管理システム</h1>
 
-    <hr style="width: 400px; border: none; border-top: 1px solid black; margin: 0 auto 30px auto;">
+<body>
+    <h1>注文管理システム</h1>
 
-    <ul style="list-style: none; padding: 0; width: 300px; margin: 0 auto;">
-      
-      <li style="margin-bottom: 10px;">
-        <a href="{{ url_for('user.list') }}" 
-           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
-           👤 ユーザー（顧客）
-        </a>
-      </li>
-
-      <li style="margin-bottom: 10px;">
-        <a href="{{ url_for('product.list') }}" 
-           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
-           🎬 映画一覧
-        </a>
-      </li>
-
-      <li style="margin-bottom: 10px;">
-        <a href="{{ url_for('order.list') }}" 
-           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
-           🎫 予約
-        </a>
-      </li>
-
+    <ul>
+      <li><a href="{{ url_for('user.list') }}">ユーザー（顧客）</a></li>
+      <li><a href="{{ url_for('product.list') }}">製品</a></li>
+      <li><a href="{{ url_for('order.list') }}">注文</a></li>
     </ul>
+
+    <!-- 左下の円グラフ -->
+    <div id="chart-area">
+        <canvas id="movieChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('movieChart');
+
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {{ labels | tojson }},
+                datasets: [{
+                    data: {{ data | tojson }},
+                    backgroundColor: [
+                        '#ff6384',
+                        '#36a2eb',
+                        '#ffce56',
+                        '#4bc0c0',
+                        '#9966ff'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '映画ごとの顧客人数',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
