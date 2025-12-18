@@ -9,8 +9,7 @@ order_bp = Blueprint('order', __name__, url_prefix='/orders')
 @order_bp.route('/')
 def list():
     orders = Order.select()
-    return render_template('order_list.html', title='予約', items=orders)
-
+    return render_template('order_list.html', title='予約一覧', items=orders)
 
 @order_bp.route('/add', methods=['GET', 'POST'])
 def add():

@@ -16,6 +16,10 @@
     <form action="{{ url_for('user.add') }}" method="post">
         <label>名前: <input type="text" name="name" required></label><br>
         <label>年齢: <input type="number" name="age" required></label><br>
+
+        <!-- 区分表示（追加してもいい／消してもいい） -->
+        <p>小学生以下子供、65歳以上シニア</p>
+
         <button type="submit">追加</button>
     </form>
 </body>

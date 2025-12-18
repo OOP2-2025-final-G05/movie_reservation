@@ -2,15 +2,37 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>注文管理システム</title>
+    <title>映画予約管理システム</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
 </head>
-<body>
-    <h1>注文管理システム</h1>
-    <ul>
-      <li><a href="{{ url_for('user.list') }}">ユーザー（顧客）</a></li>
-      <li><a href="{{ url_for('product.list') }}">製品</a></li>
-      <li><a href="{{ url_for('order.list') }}">注文</a></li>
+<body style="text-align: center;">
+    <h1>映画予約管理システム</h1>
+
+    <hr style="width: 400px; border: none; border-top: 1px solid black; margin: 0 auto 30px auto;">
+
+    <ul style="list-style: none; padding: 0; width: 300px; margin: 0 auto;">
+      
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('user.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           👤 ユーザー（顧客）
+        </a>
+      </li>
+
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('product.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           🎬 映画一覧
+        </a>
+      </li>
+
+      <li style="margin-bottom: 10px;">
+        <a href="{{ url_for('order.list') }}" 
+           style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px;">
+           🎫 予約
+        </a>
+      </li>
+
     </ul>
 </body>
 </html>
