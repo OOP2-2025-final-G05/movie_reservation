@@ -7,119 +7,200 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* 左下固定の円グラフ用エリア */
-        #count-chart-area {
+        body {
+            margin: 0;
+            padding: 0;
+            /* 背景を白に統一 */
+            background-color: #ffffff;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        /* 画面中央上部のタイトル */
+        h1 {
+            color: #000000; /* 黒色に指定 */
+            margin: 0;
+            font-size: 2em;
+        }
+
+        /* 上部：ナビゲーションエリア */
+        .header-nav {
+            padding: 30px 0;
+            /* 下部のグラフエリアと重ならないように大きな余白を確保 */
+            margin-bottom: 350px; 
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            width: 300px;
+            margin: 20px auto 0;
+        }
+
+        .menu-list li { margin-bottom: 15px; }
+
+        .menu-button {
+            display: block;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            color: #000000; /* ボタン内の文字も黒に */
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background 0.2s;
+        }
+
+        .menu-button:hover { background-color: #f0f0f0; }
+
+        /* 下部：グラフ固定エリア */
+        .fixed-dashboard {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 280px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             height: 320px;
             background-color: #ffffff;
-            border: 1px solid #ccc;
-            padding: 10px;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 15px 10px;
             box-sizing: border-box;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            z-index: 100;
+            z-index: 1000;
         }
 
-        #movieCountChart {
-            width: 100% !important;
-            height: 80% !important;
+        .chart-box {
+            width: 32%;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* 中央の売上グラフ用エリア */
-        .main-content {
-            margin: 0 auto;
-            max-width: 800px;
-            padding-bottom: 100px;
+        .chart-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000000; /* グラフタイトルも黒に */
+            width: 100%;
+            text-align: center;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 85%;
+        }
+        
+        /* 円グラフを正円に保つためのコンテナ */
+        .pie-container {
+            position: relative;
+            width: 80%;
+            height: 85%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
-<body style="text-align: center;">
+<body>
 
-    <div class="main-content">
-        <h1>映画予約管理システム</h1>
+    <div class="header-nav">
+        <h1>🎬 映画予約管理システム</h1>
+        <hr style="width: 200px; border: none; border-top: 1px solid #000; margin: 20px auto;">
 
-        <hr style="width: 400px; border: none; border-top: 1px solid black; margin: 0 auto 30px auto;">
-
-        <ul style="list-style: none; padding: 0; width: 300px; margin: 0 auto;">
-          <li style="margin-bottom: 10px;">
-            <a href="{{ url_for('user.list') }}" 
-               style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px; color: black;">
-               👤 ユーザー（顧客）
-            </a>
-          </li>
-          <li style="margin-bottom: 10px;">
-            <a href="{{ url_for('product.list') }}" 
-               style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px; color: black;">
-               🎬 映画一覧
-            </a>
-          </li>
-          <li style="margin-bottom: 10px;">
-            <a href="{{ url_for('order.list') }}" 
-               style="display: block; background-color: white; border: 1px solid #ccc; padding: 15px; text-align: center; text-decoration: none; border-radius: 5px; color: black;">
-               🎫 予約
-            </a>
-          </li>
+        <ul class="menu-list">
+            <li><a href="{{ url_for('user.list') }}" class="menu-button">👤 ユーザー（顧客）管理</a></li>
+            <li><a href="{{ url_for('product.list') }}" class="menu-button">🎬 映画一覧（作品管理）</a></li>
+            <li><a href="{{ url_for('order.list') }}" class="menu-button">🎫 予約状況の確認</a></li>
         </ul>
+    </div>
 
-        <div style="margin-top: 40px;">
-            <h2>今月の映画別売上</h2>
-            <canvas id="salesChart" width="400" height="200"></canvas>
+    <div class="fixed-dashboard">
+        <div class="chart-box">
+            <div class="chart-title">月別売上推移（今年）</div>
+            <div class="canvas-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-title">今月の映画別売上</div>
+            <div class="canvas-container">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-box">
+            <div class="chart-title">映画ごとの予約人数</div>
+            <div class="pie-container">
+                <canvas id="movieCountChart"></canvas>
+            </div>
         </div>
     </div>
 
-    <div id="count-chart-area">
-        <p style="font-weight: bold; font-size: 14px; margin-top: 0;">映画ごとの予約人数</p>
-        <canvas id="movieCountChart"></canvas>
-    </div>
-
     <script>
-        // 1. 今月の売上グラフ（横棒グラフ）
-        const ctxSales = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctxSales, {
-            type: 'bar',
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+        };
+
+        // 1. 折れ線グラフ
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
             data: {
-                labels: {{ sales_labels | tojson }},
+                labels: {{ trend_labels | tojson }},
                 datasets: [{
-                    label: '売上（円）',
-                    data: {{ sales_values | tojson }},
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    label: '売上',
+                    data: {{ trend_values | tojson }},
+                    borderColor: '#4bc0c0',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.3
                 }]
             },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    x: { beginAtZero: true }
-                }
-            }
+            options: { ...commonOptions, plugins: { legend: { display: false } } }
         });
 
-        // 2. 予約人数グラフ（円グラフ）
-        const ctxCount = document.getElementById('movieCountChart').getContext('2d');
-        new Chart(ctxCount, {
+        // 2. 横棒グラフ
+        new Chart(document.getElementById('salesChart'), {
+            type: 'bar',
+            data: {
+                labels: {{ movie_sales_labels | tojson }},
+                datasets: [{
+                    label: '売上（円）',
+                    data: {{ movie_sales_values | tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)'
+                }]
+            },
+            options: { ...commonOptions, indexAxis: 'y', plugins: { legend: { display: false } } }
+        });
+
+        // 3. 円グラフ（正円維持）
+        new Chart(document.getElementById('movieCountChart'), {
             type: 'pie',
             data: {
                 labels: {{ count_labels | tojson }},
                 datasets: [{
                     data: {{ count_values | tojson }},
-                    backgroundColor: [
-                        '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'
-                    ]
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40']
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: true, 
+                plugins: { 
+                    legend: { 
+                        position: 'right', 
+                        labels: { boxWidth: 12, font: { size: 11 }, color: '#000' } 
+                    } 
                 }
             }
         });
     </script>
-
 </body>
 </html>
