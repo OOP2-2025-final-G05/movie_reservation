@@ -34,5 +34,56 @@
       </li>
 
     </ul>
+
+<div style="
+    width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+">
+    <canvas id="salesChart"></canvas>
+</div>
+
+  <script id="sales-data" type="application/json">
+{
+  "labels": {{ labels | tojson }},
+  "values": {{ values | tojson }}
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const salesData = JSON.parse(
+    document.getElementById('sales-data').textContent
+  );
+
+  const labels = salesData.labels;
+  const values = salesData.values;
+
+  new Chart(document.getElementById('salesChart'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: '売上（円）',
+        data: values,
+        tension: 0.0
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: '月別総売上'
+        }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+});
+</script>
 </body>
 </html>
